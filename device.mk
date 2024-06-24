@@ -57,6 +57,9 @@ PRODUCT_PACKAGES += \
     wpa_supplicant.conf \
     WifiOverlay
 
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/macloader/macloader:$(TARGET_COPY_OUT_VENDOR)/bin/hw/macloader
+
 # Wi-Fi Display
 PRODUCT_PACKAGES += \
     libnl
