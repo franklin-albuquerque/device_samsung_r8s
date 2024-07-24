@@ -1,0 +1,37 @@
+//
+// Copyright (C) 2024 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_binary {
+    name: "android.hardware.biometrics.fingerprint-service.samsung-r8s",
+    relative_install_path: "hw",
+    init_rc: ["android.hardware.biometrics.fingerprint-service.samsung-r8s.rc"],
+    vintf_fragments: ["android.hardware.biometrics.fingerprint-service.samsung-r8s.xml"],
+    srcs: [
+        "CancellationSignal.cpp",
+        "Fingerprint.cpp",
+        "LegacyHAL.cpp",
+        "LockoutTracker.cpp",
+        "Session.cpp",
+        "service.cpp",
+    ],
+    shared_libs: [
+        "libbase",
+        "libbinder_ndk",
+        "libhardware",
+        "android.hardware.biometrics.fingerprint-V4-ndk",
+        "android.hardware.biometrics.common-V4-ndk",
+        "android.hardware.biometrics.common.util",
+    ],
+    static_libs: ["libandroid.hardware.biometrics.fingerprint.SamsungProps.r8s"],
+    vendor: true,
+}
+
+sysprop_library {
+    name: "android.hardware.biometrics.fingerprint.SamsungProps.r8s",
+    srcs: ["fingerprint.sysprop"],
+    property_owner: "Vendor",
+    vendor: true,
+}
