@@ -8,6 +8,7 @@
 #include "Legacy2Aidl.h"
 #include "Session.h"
 #include "VendorConstants.h"
+#include <fstream>
 
 #include <fingerprint.sysprop.h>
 
@@ -16,6 +17,7 @@
 #include <dirent.h>
 #include <endian.h>
 #include <thread>
+#define HBM_PATH "/sys/class/lcd/panel/mask_brightness"
 
 using namespace ::android::fingerprint::samsung;
 using namespace ::std::chrono_literals;
@@ -32,6 +34,21 @@ void onClientDeath(void* cookie) {
     if (session && !session->isClosed()) {
         session->close();
     }
+}
+
+template <typename T>
+static void set(const std::string& path, const T& value) {
+    std::ofstream file(path);
+    file << value;
+}
+
+template <typename T>
+static T get(const std::string& path, const T& def) {
+    std::ifstream file(path);
+    T result;
+
+    file >> result;
+    return file.fail() ? def : result;
 }
 
 Session::Session(LegacyHAL hal, int userId, std::shared_ptr<ISessionCallback> cb,
@@ -199,6 +216,8 @@ ndk::ScopedAStatus Session::onPointerDown(int32_t /*pointerId*/, int32_t /*x*/, 
                                           float /*major*/) {
     LOG(INFO) << "onPointerDown";
 
+    set(HBM_PATH, "300");
+
     if (FingerprintHalProperties::request_touch_event().value_or(false)) {
         mHal.request(SEM_REQUEST_TOUCH_EVENT, 2);
     }
@@ -209,6 +228,8 @@ ndk::ScopedAStatus Session::onPointerDown(int32_t /*pointerId*/, int32_t /*x*/, 
 
 ndk::ScopedAStatus Session::onPointerUp(int32_t /*pointerId*/) {
     LOG(INFO) << "onPointerUp";
+
+    set(HBM_PATH, "0");
 
     if (FingerprintHalProperties::request_touch_event().value_or(false)) {
         mHal.request(SEM_REQUEST_TOUCH_EVENT, 1);
@@ -264,6 +285,8 @@ ndk::ScopedAStatus Session::setIgnoreDisplayTouches(bool /*shouldIgnore*/) {
 
 ndk::ScopedAStatus Session::cancel() {
     int32_t ret = mHal.ss_fingerprint_cancel();
+
+    set(HBM_PATH, "0");
 
     if (ret == 0) {
         mCb->onError(Error::CANCELED, 0 /* vendorCode */);
@@ -434,6 +457,9 @@ void Session::notify(const fingerprint_msg_t* msg) {
 
                 mCb->onAuthenticationSucceeded(msg->data.authenticated.finger.fid, authToken);
                 mLockoutTracker.reset(true);
+
+                set(HBM_PATH, "0");
+
             } else {
                 mCb->onAuthenticationFailed();
                 mLockoutTracker.addFailedAttempt();
