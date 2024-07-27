@@ -6242,9 +6242,9 @@
 		<ctl name="VTS DMIC GAIN MODE0" value="6168" />
 		<ctl name="VTS DMIC GAIN MODE1" value="6168" />
 		<ctl name="VTS DMIC GAIN MODE2" value="6168" />
-		<ctl name="VTS CONTROL DMIC AUD GAIN0" value="11" />
-		<ctl name="VTS CONTROL DMIC AUD GAIN1" value="11" />
-		<ctl name="VTS CONTROL DMIC AUD GAIN2" value="11" />
+		<ctl name="VTS CONTROL DMIC AUD GAIN0" value="26" />
+		<ctl name="VTS CONTROL DMIC AUD GAIN1" value="26" />
+		<ctl name="VTS CONTROL DMIC AUD GAIN2" value="26" />
 	</path>
 
 	<path name="gain-incall_nb-dual-speaker-mic">
