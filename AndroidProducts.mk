@@ -14,9 +14,9 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_r8s.mk
+    $(LOCAL_DIR)/aosp_r8s.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_r8s-user \
-    lineage_r8s-userdebug \
-    lineage_r8s-eng
+    aosp_r8s-user \
+    aosp_r8s-userdebug \
+    aosp_r8s-eng

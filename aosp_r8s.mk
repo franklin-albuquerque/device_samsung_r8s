@@ -22,12 +22,16 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 $(call inherit-product, device/samsung/r8s/device.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit some common Lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+# Inherit some common PixelOS stuff.
+$(call inherit-product, vendor/aosp/config/common_full_phone.mk)
+TARGET_BOOT_ANIMATION_RES := 1080
+TARGET_INCLUDE_LIVE_WALLPAPERS := true
+TARGET_SUPPORTS_CALL_RECORDING := true
+TARGET_SUPPORTS_GOOGLE_RECORDER := true
 
 # Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := r8s
-PRODUCT_NAME := r8s
+PRODUCT_NAME := aosp_r8s
 PRODUCT_BRAND := samsung
 PRODUCT_MODEL := SM-G780F
 PRODUCT_MANUFACTURER := samsung
@@ -37,10 +41,10 @@ PRODUCT_GMS_CLIENTID_BASE := android-samsung
 # Use the latest approved GMS identifiers
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_NAME=r8sxx \
-    PRIVATE_BUILD_DESC="r8sxx-user 11 RP1A.200720.012 G780FXXSDFWH8 release-keys"
+    PRIVATE_BUILD_DESC="r8sxx-user 11 RP1A.200720.012 G780FXXSHFXE5 release-keys"
 
-BUILD_FINGERPRINT := samsung/r8sxx/r8s:11/RP1A.200720.012/G780FXXSDFWH8:user/release-keys
+BUILD_FINGERPRINT := samsung/r8sxx/r8s:11/RP1A.200720.012/G780FXXSHFXE5:user/release-keys
 
 # Define PDA property for camera
 PRODUCT_SYSTEM_PROPERTIES += \
-    ro.build.PDA=G780FXXSDFWH8
+    ro.build.PDA=G780FXXSHFXE5
